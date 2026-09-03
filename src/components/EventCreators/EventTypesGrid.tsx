@@ -30,6 +30,7 @@ const EVENT_TYPES = [
 
 export default function EventTypesGrid() {
   const [openIndex, setOpenIndex] = useState<number | null>(null);
+
   const active =
     openIndex !== null && !EVENT_TYPES[openIndex].href
       ? EVENT_TYPES[openIndex]
@@ -37,42 +38,63 @@ export default function EventTypesGrid() {
 
   return (
     <>
-      <section className="bg-[#f8f7f4] pb-16">
-        <div className="max-w-[1180px] mx-auto px-8">
+      <section className="bg-[#f8f7f4] pb-[140px]">
+        <div className="max-w-[850px] mx-auto px-5">
+
+          {/* Heading */}
           <h2 className="font-heading italic font-light text-[32px] md:text-[36px] text-neutral-900 text-center mb-12">
             What type of event do you want?
           </h2>
 
-          <div className="grid sm:grid-cols-3 gap-8">
+          {/* Event cards */}
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-x-6 items-start">
+
             {EVENT_TYPES.map((item, i) => (
-              <div key={item.title}>
+              <div
+                key={item.title}
+                className={
+                  i === 0 || i === 2
+                    ? "md:translate-y-[100px]"
+                    : ""
+                }
+              >
+                {/* Image */}
                 <div
-                  className="w-full aspect-[4/3] bg-cover bg-center mb-4"
-                  style={{ backgroundImage: `url('${item.image}')` }}
+                  className="w-full aspect-[3/2] bg-cover bg-center mb-3"
+                  style={{
+                    backgroundImage: `url('${item.image}')`,
+                  }}
                 />
-                <h3 className="text-[16px] text-neutral-900 mb-2">
+
+                {/* Title */}
+                <h3 className="text-[15px] text-neutral-900 mb-2">
                   {item.title}
                 </h3>
-                <p className="text-[13px] leading-[1.6] text-neutral-600 mb-4">
+
+                {/* Description */}
+                <p className="text-[12px] leading-[1.6] text-neutral-600 mb-4">
                   {item.summary}
                 </p>
+
+                {/* Read More */}
                 {item.href ? (
                   <Link
                     href={item.href}
-                    className="inline-flex items-center border border-neutral-400 rounded-full px-5 py-2 text-[12.5px] text-neutral-900 hover:bg-neutral-900 hover:text-white hover:border-neutral-900 transition-colors"
+                    className="inline-flex items-center border border-neutral-400 rounded-md px-5 py-2 text-[11px] text-neutral-900 hover:bg-neutral-900 hover:text-white hover:border-neutral-900 transition-colors"
                   >
                     Read More
                   </Link>
                 ) : (
                   <button
                     onClick={() => setOpenIndex(i)}
-                    className="inline-flex items-center border border-neutral-400 rounded-full px-5 py-2 text-[12.5px] text-neutral-900 hover:bg-neutral-900 hover:text-white hover:border-neutral-900 transition-colors cursor-pointer"
+                    className="inline-flex items-center border border-neutral-400 rounded-md px-5 py-2 text-[11px] text-neutral-900 hover:bg-neutral-900 hover:text-white hover:border-neutral-900 transition-colors cursor-pointer"
                   >
                     Read More
                   </button>
                 )}
               </div>
             ))}
+
           </div>
         </div>
       </section>

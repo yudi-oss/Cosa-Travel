@@ -28,49 +28,60 @@ export default function Testimonial() {
   const t = TESTIMONIALS[active];
 
   return (
-    <section className="relative overflow-hidden bg-[#f8f7f4] pt-16 pb-20">
+    <section className="relative overflow-hidden bg-[#f8f7f4] pt-12 pb-20 md:pt-16 md:pb-24">
+
       {/* Decorative blobs */}
-      <div className="pointer-events-none absolute inset-0" aria-hidden="true">
-        <div
-          className="absolute right-[-60px] top-[-40px] h-[280px] w-[420px] rounded-[50%]"
-          style={{
-            background:
-              "linear-gradient(180deg, rgba(201,208,203,0.55) 0%, rgba(201,208,203,0.15) 100%)",
-          }}
-        />
-        <div
-          className="absolute right-[80px] top-[60px] h-[180px] w-[260px] rounded-[50%]"
-          style={{
-            background:
-              "linear-gradient(180deg, rgba(201,208,203,0.45) 0%, rgba(201,208,203,0.1) 100%)",
-          }}
-        />
-      </div>
+      <div
+        className="pointer-events-none absolute right-[-80px] top-[-25px] h-[250px] w-[380px] rounded-[50%]"
+        style={{
+          background:
+            "linear-gradient(180deg, rgba(201,208,203,0.55) 0%, rgba(201,208,203,0.12) 100%)",
+        }}
+      />
 
-      <div className="relative z-10 max-w-[1180px] mx-auto px-8">
-        <p className="text-[12px] uppercase tracking-[0.12em] text-neutral-500 mb-4">
-          {t.eyebrow}
-        </p>
+      <div
+        className="pointer-events-none absolute right-[80px] top-[45px] h-[175px] w-[270px] rounded-[50%]"
+        style={{
+          background:
+            "linear-gradient(180deg, rgba(201,208,203,0.45) 0%, rgba(201,208,203,0.08) 100%)",
+        }}
+      />
 
-        <blockquote className="font-heading italic font-light text-[28px] md:text-[34px] leading-[1.25] text-neutral-900 max-w-[720px] mb-5">
-          &ldquo;{t.quote}&rdquo;
-        </blockquote>
+      <div className="relative z-10 max-w-[900px] mx-auto px-6">
 
-        <p className="text-[13px] text-neutral-500 mb-6">— {t.attribution}</p>
+        {/* Testimonial content */}
+        <div className="max-w-[610px]">
 
-        <div className="flex gap-2">
-          {TESTIMONIALS.map((item, i) => (
-            <button
-              key={item.attribution}
-              onClick={() => setActive(i)}
-              aria-label={`Show testimonial ${i + 1}`}
-              className={`h-[3px] rounded-full transition-all cursor-pointer ${
-                i === active
-                  ? "w-8 bg-neutral-900"
-                  : "w-4 bg-neutral-300 hover:bg-neutral-400"
-              }`}
-            />
-          ))}
+          <p className="text-[10px] uppercase tracking-[0.12em] text-neutral-500 mb-5">
+            {t.eyebrow}
+          </p>
+
+          <blockquote className="font-heading italic font-light text-[27px] md:text-[31px] leading-[1.28] text-neutral-900 mb-5">
+            &ldquo;{t.quote}&rdquo;
+          </blockquote>
+
+          <div className="flex items-center gap-3 mb-6">
+            <span className="text-[12px] text-neutral-500">
+              — {t.attribution}
+            </span>
+          </div>
+
+          {/* Slider indicators */}
+          <div className="flex items-center gap-2">
+            {TESTIMONIALS.map((item, i) => (
+              <button
+                key={item.attribution}
+                onClick={() => setActive(i)}
+                aria-label={`Show testimonial ${i + 1}`}
+                className={`h-[3px] rounded-full transition-all cursor-pointer ${
+                  i === active
+                    ? "w-9 bg-neutral-900"
+                    : "w-4 bg-neutral-300 hover:bg-neutral-400"
+                }`}
+              />
+            ))}
+          </div>
+
         </div>
       </div>
     </section>

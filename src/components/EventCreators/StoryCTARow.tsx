@@ -29,7 +29,7 @@ export default function StoryCTARow({
           </div>
 
           <div
-            className={`md:col-span-7 self-center ${
+            className={`md:col-span-7 ${
               reverse ? "md:order-2" : "md:order-1"
             }`}
           >
