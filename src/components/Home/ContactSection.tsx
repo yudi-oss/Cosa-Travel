@@ -1,7 +1,5 @@
-"use client";
-
-import { useState } from "react";
-import Modal from "@/components/Shared/Modal";
+import Image from "next/image";
+import Link from "next/link";
 
 const departments = [
   {
@@ -30,16 +28,7 @@ const departments = [
   },
 ];
 
-const TEAM = [
-  { name: "Elena Roth", role: "Founder & Travel Designer" },
-  { name: "Marco Bühler", role: "Head of Corporate Travel" },
-  { name: "Sofia Marchetti", role: "Event Creator" },
-  { name: "Jonas Weber", role: "Switzerland Specialist" },
-];
-
 export default function ContactSection() {
-  const [teamOpen, setTeamOpen] = useState(false);
-
   return (
     <section id="contact" className="bg-[#f8f7f4] pt-16 pb-16">
       <div className="max-w-[980px] mx-auto px-8">
@@ -53,12 +42,12 @@ export default function ContactSection() {
           We&apos;re expert travel planners but we&apos;re also expert
           travellers too.
         </p>
-        <button
-          onClick={() => setTeamOpen(true)}
+        <Link
+          href="/our-team"
           className="inline-flex items-center border border-neutral-300 rounded-full px-5 py-1.5 text-[13px] text-neutral-800 hover:bg-neutral-900 hover:text-white hover:border-neutral-900 transition-colors mb-16"
         >
           Meet The Team
-        </button>
+        </Link>
 
         {/* Contact us */}
         <h2 className="font-heading italic font-light text-[32px] text-neutral-900 mb-5">
@@ -80,10 +69,12 @@ export default function ContactSection() {
         <div className="grid grid-cols-2 md:grid-cols-4 gap-8 mb-16">
           {departments.map((d) => (
             <div key={d.title + d.email}>
-              <img
+              <Image
                 src={d.icon}
                 alt={d.title}
-                className="w-[30px] h-[30px] mb-3"
+                width={30}
+                height={30}
+                className="mb-3"
               />
               <h3 className="text-[14px] text-neutral-900 mb-1.5">
                 {d.title}
@@ -104,25 +95,6 @@ export default function ContactSection() {
           ))}
         </div>
       </div>
-
-      <Modal
-        open={teamOpen}
-        onClose={() => setTeamOpen(false)}
-        title="Meet The Team"
-      >
-        <p className="mb-6">
-          Our travel designers, corporate travel and event teams have decades
-          of combined experience planning trips across the globe.
-        </p>
-        <ul className="space-y-4">
-          {TEAM.map((t) => (
-            <li key={t.name} className="flex justify-between border-b border-neutral-200 pb-3">
-              <span className="text-neutral-900">{t.name}</span>
-              <span className="text-neutral-500">{t.role}</span>
-            </li>
-          ))}
-        </ul>
-      </Modal>
     </section>
   );
 }

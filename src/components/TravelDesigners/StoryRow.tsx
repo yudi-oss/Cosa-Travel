@@ -13,11 +13,7 @@ export default function StoryRow({
 }: StoryRowProps) {
   return (
     <div className="max-w-[1180px] mx-auto px-8 py-14">
-      <div
-        className={`grid md:grid-cols-2 gap-12 items-center ${
-          reverse ? "" : ""
-        }`}
-      >
+      <div className="grid md:grid-cols-2 gap-12 items-center">
         <div className={reverse ? "md:order-2" : "md:order-1"}>
           <div
             className="w-full aspect-[4/3] bg-cover bg-center"

@@ -15,7 +15,7 @@ const ITEMS = [
     title: "Private events",
     image: "/corporateevents/privateevents.png",
     summary:
-      "Milestone are meant to be marked in style. We know how imortant that is and how much it means to...",
+      "Milestones are meant to be marked in style. We know how important that is and how much it means to...",
     body: "Milestones are meant to be marked in style. We know how important that is and how much it means to you, so our team handles every detail of your private celebration, from venue and catering to entertainment and guest logistics, so you can simply enjoy the occasion.",
   },
   {

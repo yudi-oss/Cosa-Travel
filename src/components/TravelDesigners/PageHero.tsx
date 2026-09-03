@@ -25,6 +25,9 @@ export default function PageHero({
       {/* Hero Text */}
       <div className="relative z-10 h-full flex items-end">
         <div className="pb-16 pl-16 md:pl-20 text-white max-w-[1100px]">
+          <p className="text-[13px] uppercase tracking-[0.15em] mb-3">
+            {eyebrow}
+          </p>
           <h1 className="font-heading italic font-light text-[44px] md:text-[52px] leading-[0.95] tracking-[-0.02em]">
             {title}
           </h1>

@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { useState } from "react";
 
 export default function EventContactForm() {
@@ -113,16 +114,20 @@ export default function EventContactForm() {
         {/* Partner logos */}
         <div className="flex flex-wrap items-center gap-x-14 gap-y-6">
           <span className="text-[14px] text-neutral-500">Cosa Network</span>
-          <img
+          <Image
             src="/logos/serandipians.png"
             alt="Serandipians"
+            width={200}
+            height={50}
             className="h-10 w-auto"
           />
-          <img src="/logos/pure.png" alt="Pure" className="h-14 w-auto" />
-          <img src="/logos/wendy.png" alt="AITO" className="h-14 w-auto" />
-          <img
+          <Image src="/logos/pure.png" alt="Pure" width={200} height={56} className="h-14 w-auto" />
+          <Image src="/logos/wendy.png" alt="AITO" width={200} height={56} className="h-14 w-auto" />
+          <Image
             src="/logos/switchzerland.png"
             alt="Switzerland Member"
+            width={200}
+            height={36}
             className="h-9 w-auto"
           />
         </div>
