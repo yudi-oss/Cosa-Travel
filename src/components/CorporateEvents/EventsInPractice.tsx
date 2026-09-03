@@ -13,27 +13,27 @@ const CASE_STUDIES = [
     body: "To mark a milestone company anniversary, we chartered a private yacht for a week-long journey through the Cape Verde archipelago. Each day brought a new island, new snorkelling spots and new beach landings by inflatable tender, with the whole itinerary built around downtime, teamwork and a bit of adventure in equal measure.",
   },
   {
-    title: "Cape Verde",
+    title: "South Africa",
     location: "South Africa",
-    image: "/corporateevents/capeverde.png",
+    image: "/corporateevents/events.png",
     summary:
-      "A week in the Atlantic aboard a luxury private yacht, hopping from one island to the next: This anniversary voyage won't be forgotten",
+      "Coastal drives in vintage sports cars, private vineyard lunches and beachfront dinners under the stars",
     body: "For a South African leadership retreat, we combined coastal drives in vintage sports cars with private vineyard lunches, wrapping up each evening with a beachfront dinner under the stars. The pace was relaxed by design, leaving plenty of room for informal conversation and connection.",
   },
   {
-    title: "Cape Verde",
+    title: "Japan",
     location: "Japan",
-    image: "/corporateevents/capeverde.png",
+    image: "/corporateevents/privateevents.png",
     summary:
-      "A week in the Atlantic aboard a luxury private yacht, hopping from one island to the next: This anniversary voyage won't be forgotten",
+      "Tokyo's neon energy paired with the calm of Kyoto's temples, temples and a traditional ryokan evening",
     body: "A sales incentive trip to Japan paired Tokyo's neon energy with the calm of Kyoto's temples. Private guides led the group through backstreet food tours, a tea ceremony and an evening at a traditional ryokan, giving high performers a trip that felt worlds away from the office.",
   },
   {
-    title: "Cape Verde",
+    title: "Italy",
     location: "Italy",
-    image: "/corporateevents/capeverde.png",
+    image: "/corporateevents/activities.png",
     summary:
-      "A week in the Atlantic aboard a luxury private yacht, hopping from one island to the next: This anniversary voyage won't be forgotten",
+      "An Italian product launch for 80 guests at a private villa on the Amalfi Coast",
     body: "An Italian product launch event brought 80 guests to a private villa on the Amalfi Coast, complete with a live cooking demonstration, a boat trip along the coastline and a closing gala dinner overlooking the sea.",
   },
 ];
@@ -96,7 +96,7 @@ export default function EventsInPractice() {
       <Modal
         open={!!active}
         onClose={() => setOpenIndex(null)}
-        title={active ? `Cape Verde — ${active.location}` : undefined}
+        title={active ? `${active.title} — ${active.location}` : undefined}
       >
         {active && <p>{active.body}</p>}
       </Modal>

@@ -1,3 +1,5 @@
+import Image from "next/image";
+
 const SERVICES = [
   {
     icon: "/icons/traveldesginersalt.png",
@@ -53,7 +55,7 @@ export default function ServicesGrid() {
         <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
           {SERVICES.map((s) => (
             <div key={s.title + s.email}>
-              <img src={s.icon} alt={s.title} className="w-[30px] h-[30px] mb-3" />
+              <Image src={s.icon} alt={s.title} width={30} height={30} className="mb-3" />
               <h3 className="text-[14px] text-neutral-900 mb-1.5">
                 {s.title}
               </h3>

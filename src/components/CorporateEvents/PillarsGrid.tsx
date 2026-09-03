@@ -1,3 +1,5 @@
+import Image from "next/image";
+
 const PILLARS = [
   {
     title: "Unique experiences",
@@ -21,11 +23,13 @@ export default function PillarsGrid() {
           {PILLARS.map((p) => (
             <div key={p.title}>
               <div className="mb-5">
-                <img
+                <Image
                   src="/corporateevents/activities.png"
                   alt=""
                   aria-hidden="true"
-                  className="w-[46px] h-[46px] object-contain"
+                  width={46}
+                  height={46}
+                  className="object-contain"
                 />
               </div>
               <h3 className="text-[15px] font-medium text-neutral-900 mb-2">

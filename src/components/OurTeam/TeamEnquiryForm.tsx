@@ -3,7 +3,7 @@
 import Image from "next/image";
 import { useState } from "react";
 
-export default function SignupForm() {
+export default function TeamEnquiryForm() {
   const [agreed, setAgreed] = useState(false);
   const [submitted, setSubmitted] = useState(false);
 
@@ -14,16 +14,16 @@ export default function SignupForm() {
   }
 
   return (
-    <section id="signup" className="bg-[#f8f7f4] pb-20">
+    <section id="contact" className="bg-[#f8f7f4] pb-16">
       <div className="max-w-[980px] mx-auto px-8">
-        <h2 className="text-[16px] text-neutral-900 max-w-[420px] mb-8">
-          To receive updates about exclusive experiences, events, new
-          destinations and more please sign up
+        <h2 className="font-heading italic font-light text-[32px] md:text-[36px] text-neutral-900 mb-10">
+          Haven&apos;t found the right person? Get in touch here
         </h2>
 
         {submitted ? (
           <p className="text-[15px] text-neutral-700 mb-16">
-            Thanks for signing up — keep an eye on your inbox.
+            Thanks for reaching out — a member of the Cosa team will be in
+            touch shortly.
           </p>
         ) : (
           <form onSubmit={handleSubmit} className="max-w-[790px] mb-16">
@@ -50,15 +50,38 @@ export default function SignupForm() {
               </div>
             </div>
 
+            <div className="grid sm:grid-cols-2 gap-6 mb-6">
+              <div>
+                <label className="block text-[12px] mb-2 text-neutral-600">
+                  email <span className="text-red-500">*</span>
+                </label>
+                <input
+                  required
+                  type="email"
+                  className="w-full border border-neutral-200 bg-white px-4 py-3 text-sm placeholder:text-neutral-400 focus:outline-none focus:border-neutral-500"
+                  placeholder="john@gmail.com"
+                />
+              </div>
+              <div>
+                <label className="block text-[12px] mb-2 text-neutral-600">
+                  Phone <span className="text-red-500">*</span>
+                </label>
+                <input
+                  required
+                  type="tel"
+                  className="w-full border border-neutral-200 bg-white px-4 py-3 text-sm placeholder:text-neutral-400 focus:outline-none focus:border-neutral-500"
+                  placeholder="+41 79 123 45 67"
+                />
+              </div>
+            </div>
+
             <div className="mb-6">
               <label className="block text-[12px] mb-2 text-neutral-600">
-                Email <span className="text-red-500">*</span>
+                Any question you&apos;d like to add? (optional)
               </label>
-              <input
-                required
-                type="email"
-                className="w-full border border-neutral-200 bg-white px-4 py-3 text-sm placeholder:text-neutral-400 focus:outline-none focus:border-neutral-500"
-                placeholder="john@gmail.com"
+              <textarea
+                rows={4}
+                className="w-full border border-neutral-200 bg-white px-4 py-3 text-sm placeholder:text-neutral-400 focus:outline-none focus:border-neutral-500 resize-none"
               />
             </div>
 
@@ -81,9 +104,9 @@ export default function SignupForm() {
 
             <button
               type="submit"
-              className="inline-flex items-center border border-neutral-300 rounded-full px-6 py-2 text-[13px] text-neutral-800 hover:bg-neutral-900 hover:text-white hover:border-neutral-900 transition-colors"
+              className="inline-flex items-center border border-neutral-300 rounded-full px-6 py-2 text-[13px] text-neutral-800 hover:bg-neutral-900 hover:text-white hover:border-neutral-900 transition-colors cursor-pointer"
             >
-              Sign Up
+              Send
             </button>
           </form>
         )}

@@ -10,10 +10,13 @@ const NAV_LINKS = [
   { label: "What We Do", href: "/#what-we-do" },
   { label: "Why Choose Cosa", href: "/#why-choose-cosa" },
   { label: "Destinations", href: "/#destinations" },
-  { label: "Contact", href: "/#contact" },
+  { label: "Contact", href: "/contact" },
   { label: "Travel Designers", href: "/travel-designers" },
   { label: "Corporate Events", href: "/corporate-events" },
   { label: "Event Creators", href: "/event-creators" },
+  { label: "Booking Specialists", href: "/booking-specialists" },
+  { label: "Switzerland Experts", href: "/switzerland-experts" },
+  { label: "Our Team", href: "/our-team" },
   { label: "Sign Up", href: "#signup" },
 ];
 
@@ -35,12 +38,12 @@ const SEARCH_SUGGESTIONS = [
   { label: "Travel Designers", href: "/travel-designers" },
   { label: "Corporate Events", href: "/corporate-events" },
   { label: "Event Creators", href: "/event-creators" },
-  { label: "Booking Specialists", href: "/#what-we-do" },
-  { label: "Switzerland Experts", href: "/#what-we-do" },
+  { label: "Booking Specialists", href: "/booking-specialists" },
+  { label: "Switzerland Experts", href: "/switzerland-experts" },
   { label: "Why Choose Cosa", href: "/#why-choose-cosa" },
   { label: "Inspiring Destinations", href: "/#destinations" },
-  { label: "Meet the Cosa Family", href: "/#contact" },
-  { label: "Contact & Departments", href: "/#contact" },
+  { label: "Meet the Cosa Family", href: "/our-team" },
+  { label: "Contact & Departments", href: "/contact" },
   { label: "Newsletter Sign Up", href: "#signup" },
 ];
 

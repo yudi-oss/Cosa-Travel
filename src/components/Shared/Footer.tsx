@@ -1,16 +1,10 @@
 "use client";
 
 import { useState } from "react";
+import Link from "next/link";
 import Modal from "./Modal";
 
 const PAGES: Record<string, { title: string; body: string[] }> = {
-  contact: {
-    title: "Contact",
-    body: [
-      "Reach the Cosa team at mail@cosatravel.ch or +41 44 269 40 40, Monday to Friday, 9am–6pm CET.",
-      "Prefer to write? Use the general contact form further up this page and a member of the team will come back to you within one working day.",
-    ],
-  },
   faq: {
     title: "FAQ",
     body: [
@@ -50,12 +44,12 @@ export default function Footer() {
     <footer className="bg-[#f8f7f4] border-t border-neutral-200">
       <div className="max-w-[980px] mx-auto px-8 py-12 grid sm:grid-cols-3 gap-8 text-[13px] text-neutral-500">
         <div className="flex flex-col gap-3">
-          <button
-            onClick={() => setOpen("contact")}
+          <Link
+            href="/contact"
             className="text-left hover:text-neutral-900 transition-colors"
           >
             Contact
-          </button>
+          </Link>
           <button
             onClick={() => setOpen("faq")}
             className="text-left hover:text-neutral-900 transition-colors"
