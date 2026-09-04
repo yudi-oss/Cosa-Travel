@@ -20,52 +20,35 @@ export default function ExperienceGrid() {
   return (
     <section className="bg-[#f8f7f4] pb-20">
       <div className="max-w-[1180px] mx-auto px-8">
+        <h2 className="font-heading italic font-light text-[32px] md:text-[36px] text-neutral-900 mb-5">
+          Uniquely Swiss
+        </h2>
+        <p className="text-[14px] leading-[1.8] text-neutral-700 max-w-[780px] mb-12">
+          Every Swiss tour is meticulously created using your own wishes, be
+          that meeting the farmer who gives his cows a unique beer treatment
+          or riding the rails like a local. Or even tucking into some hot
+          raclette, that lesser-known cousin of fondue. Here are three
+          amazing Swiss experiences you could enjoy.
+        </p>
 
-        {/* Intro */}
-        <div className="mb-20">
-          <h2 className="font-heading italic font-light text-[42px] md:text-[52px] leading-none text-neutral-900 mb-10">
-            Uniquely Swiss
-          </h2>
-
-          <p className="text-[16px] md:text-[18px] leading-[1.6] text-neutral-700 max-w-[1080px]">
-            Every Swiss tour is meticulously created using your own wishes, be
-            that meeting the farmer who gives his cows a unique beer treatment
-            or riding the rails like a local. Or even tucking into some hot
-            raclette, that lesser-known cousin of fondue. Here are three
-            amazing Swiss experiences you could enjoy.
-          </p>
-        </div>
-
-        {/* Experience Cards */}
-        <div className="grid sm:grid-cols-3 gap-8 md:gap-10 items-start">
-
-          {EXPERIENCES.map((item, index) => (
-            <div
-              key={item.title}
-              className={`
-                ${index === 1 ? "sm:-translate-y-[180px]" : ""}
-              `}
-            >
-              {/* Image */}
-              <div
-                className="w-full aspect-[4/3] bg-cover bg-center mb-5"
-                style={{
-                  backgroundImage: `url('${item.image}')`,
-                }}
-              />
-
-              {/* Title */}
-              <h3 className="text-[20px] md:text-[22px] text-neutral-900 font-normal mb-4">
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-8">
+          {EXPERIENCES.map((item) => (
+            <div key={item.title}>
+              <div className="w-full h-[260px] overflow-hidden mb-4">
+                <img
+                  src={item.image}
+                  alt={item.title}
+                  className="w-full h-full object-cover block"
+                />
+              </div>
+              <h3 className="text-[16px] text-neutral-900 mb-2">
                 {item.title}
               </h3>
-
-              {/* Description */}
-              <p className="text-[16px] md:text-[17px] leading-[1.55] text-neutral-600">
+              <p className="text-[13px] leading-[1.6] text-neutral-600">
                 {item.copy}
               </p>
             </div>
           ))}
-
         </div>
       </div>
     </section>

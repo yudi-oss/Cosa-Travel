@@ -1,23 +1,87 @@
 "use client";
-
 import { useEffect, useRef, useState } from "react";
 import { useRouter, usePathname } from "next/navigation";
 import { FiSearch, FiHeart, FiPhone, FiX } from "react-icons/fi";
 import { TbWorld } from "react-icons/tb";
 import Link from "next/link";
+import Image from "next/image";
 
-const NAV_LINKS = [
-  { label: "What We Do", href: "/#what-we-do" },
-  { label: "Why Choose Cosa", href: "/#why-choose-cosa" },
-  { label: "Destinations", href: "/#destinations" },
-  { label: "Contact", href: "/contact" },
-  { label: "Travel Designers", href: "/travel-designers" },
-  { label: "Corporate Events", href: "/corporate-events" },
-  { label: "Event Creators", href: "/event-creators" },
-  { label: "Booking Specialists", href: "/booking-specialists" },
-  { label: "Switzerland Experts", href: "/switzerland-experts" },
-  { label: "Our Team", href: "/our-team" },
-  { label: "Sign Up", href: "#signup" },
+// ---------- Menu content model ----------
+type MenuLink = { label: string; href: string };
+type MenuSection = {
+  key: string;
+  label: string;
+  links: MenuLink[];
+  image: { src: string; alt: string };
+};
+
+const MENU_SECTIONS: MenuSection[] = [
+  {
+    key: "explore",
+    label: "Explore",
+    links: [
+      { label: "The World", href: "/#destinations" },
+      { label: "Switzerland", href: "/switzerland" },
+      { label: "Cosa inspirations", href: "/#inspirations" },
+    ],
+    image: {
+      src: "/images/mega-menu/explore-baobabs.jpg",
+      alt: "Avenue of the Baobabs at sunset, Madagascar",
+    },
+  },
+  {
+    key: "services",
+    label: "Services",
+    links: [
+      { label: "Travel Designer", href: "/travel-designers" },
+      { label: "Event Creators", href: "/event-creators" },
+      { label: "Booking Specialist", href: "/booking-specialists" },
+      { label: "Switzerland Experts", href: "/switzerland-experts" },
+    ],
+    image: {
+      src: "/images/mega-menu/services.jpg",
+      alt: "Cosa travel designer planning a bespoke itinerary",
+    },
+  },
+  {
+    key: "why-cosa",
+    label: "Why Cosa",
+    links: [
+      { label: "Our Approach", href: "/#why-choose-cosa" },
+      { label: "Conscious Travel", href: "/about-us#conscious-travel" },
+      { label: "Corporate Events", href: "/corporate-events" },
+    ],
+    image: {
+      src: "/images/mega-menu/why-cosa.jpg",
+      alt: "A tailor-made Cosa journey in progress",
+    },
+  },
+  {
+    key: "about-us",
+    label: "About Us",
+    links: [
+      { label: "Our Story", href: "/about-us" },
+      { label: "Conscious travel", href: "/about-us#conscious-travel" },
+      { label: "Team", href: "/our-team" },
+      { label: "Career", href: "/careers" },
+    ],
+    image: {
+      src: "/images/mega-menu/about-us.jpg",
+      alt: "The Cosa team",
+    },
+  },
+  {
+    key: "contact",
+    label: "Contact",
+    links: [
+      { label: "General Inquiries", href: "/contact" },
+      { label: "Departments", href: "/contact#departments" },
+    ],
+    image: {
+      src: "/images/mega-menu/contact.jpg",
+      alt: "Get in touch with Cosa Travel",
+    },
+  },
 ];
 
 const LANGUAGES = [
@@ -34,333 +98,204 @@ const CURRENCIES = [
   { code: "GBP", label: "British Pound" },
 ];
 
-const SEARCH_SUGGESTIONS = [
-  { label: "Travel Designers", href: "/travel-designers" },
-  { label: "Corporate Events", href: "/corporate-events" },
-  { label: "Event Creators", href: "/event-creators" },
-  { label: "Booking Specialists", href: "/booking-specialists" },
-  { label: "Switzerland Experts", href: "/switzerland-experts" },
-  { label: "Why Choose Cosa", href: "/#why-choose-cosa" },
-  { label: "Inspiring Destinations", href: "/#destinations" },
-  { label: "Meet the Cosa Family", href: "/our-team" },
-  { label: "Contact & Departments", href: "/contact" },
-  { label: "Newsletter Sign Up", href: "#signup" },
-];
-
 export default function Navbar() {
   const router = useRouter();
   const pathname = usePathname();
+
   const [menuOpen, setMenuOpen] = useState(false);
   const [langOpen, setLangOpen] = useState(false);
   const [currencyOpen, setCurrencyOpen] = useState(false);
-  const [searchOpen, setSearchOpen] = useState(false);
-  const [query, setQuery] = useState("");
-  const [language, setLanguage] = useState(LANGUAGES[0]);
-  const [currency, setCurrency] = useState(CURRENCIES[0]);
-  const [saved, setSaved] = useState(false);
 
-  const langRef = useRef<HTMLDivElement>(null);
-  const currencyRef = useRef<HTMLDivElement>(null);
-  const searchInputRef = useRef<HTMLInputElement>(null);
+  // which section's image is shown in the full-screen menu (defaults to first)
+  const [previewKey, setPreviewKey] = useState(MENU_SECTIONS[0].key);
+  const preview = MENU_SECTIONS.find((s) => s.key === previewKey) ?? MENU_SECTIONS[0];
 
-  // Close dropdowns on outside click
+  // close everything on route change
   useEffect(() => {
-    function onClick(e: MouseEvent) {
-      if (langRef.current && !langRef.current.contains(e.target as Node)) {
-        setLangOpen(false);
-      }
-      if (
-        currencyRef.current &&
-        !currencyRef.current.contains(e.target as Node)
-      ) {
-        setCurrencyOpen(false);
-      }
-    }
-    document.addEventListener("mousedown", onClick);
-    return () => document.removeEventListener("mousedown", onClick);
-  }, []);
-
-  // Escape closes everything
-  useEffect(() => {
-    function onKey(e: KeyboardEvent) {
-      if (e.key === "Escape") {
-        setMenuOpen(false);
-        setSearchOpen(false);
-        setLangOpen(false);
-        setCurrencyOpen(false);
-      }
-    }
-    document.addEventListener("keydown", onKey);
-    return () => document.removeEventListener("keydown", onKey);
-  }, []);
-
-  // Lock scroll when a full-screen overlay is open
-  useEffect(() => {
-    document.body.style.overflow = menuOpen || searchOpen ? "hidden" : "";
-  }, [menuOpen, searchOpen]);
-
-  useEffect(() => {
-    if (searchOpen) searchInputRef.current?.focus();
-  }, [searchOpen]);
-
-  function go(href: string) {
     setMenuOpen(false);
-    setSearchOpen(false);
+    setLangOpen(false);
+    setCurrencyOpen(false);
+  }, [pathname]);
 
-    // "/#section" style links: hash lives on the homepage.
-    if (href.startsWith("/#")) {
-      const hash = href.slice(1); // "#section"
-      if (pathname === "/") {
-        document.querySelector(hash)?.scrollIntoView({ behavior: "smooth" });
-      } else {
-        router.push(href);
-      }
-      return;
-    }
+  // close on Escape
+  useEffect(() => {
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") setMenuOpen(false);
+    };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, []);
 
-    // "#section" style links: scroll within the current page (works on
-    // both Home and Travel Designers, since both render #signup).
-    if (href.startsWith("#")) {
-      const el = document.querySelector(href);
-      if (el) {
-        el.scrollIntoView({ behavior: "smooth" });
-      } else {
-        // Fallback: section doesn't exist here, so go find it on the homepage.
-        router.push(`/${href}`);
-      }
-      return;
-    }
+  // lock body scroll while the full-screen menu is open
+  useEffect(() => {
+    document.body.style.overflow = menuOpen ? "hidden" : "";
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [menuOpen]);
 
-    // Plain route, e.g. "/travel-designers"
-    router.push(href);
-  }
-
-  const filteredSuggestions = SEARCH_SUGGESTIONS.filter((s) =>
-    s.label.toLowerCase().includes(query.toLowerCase())
-  );
+  // reset preview image to first section each time menu opens
+  useEffect(() => {
+    if (menuOpen) setPreviewKey(MENU_SECTIONS[0].key);
+  }, [menuOpen]);
 
   return (
     <>
-      <nav id="top" className="absolute top-0 left-0 w-full z-50">
-        <div className="max-w-[1180px] mx-auto px-8 py-8 flex justify-between items-center">
-          {/* Left Side */}
-          <div className="flex items-center gap-4">
+      {/* ---------- Header (sits on top of the hero image, transparent) ---------- */}
+      <header className="absolute left-0 right-0 top-0 z-50">
+        <div className="mx-auto flex max-w-[1800px] items-center justify-between px-8 py-7">
+          {/* Left: hamburger + call us */}
+          <div className="flex items-center gap-8">
             <button
               onClick={() => setMenuOpen(true)}
               aria-label="Open menu"
-              className="space-y-2 cursor-pointer group"
+              aria-expanded={menuOpen}
+              className="flex flex-col gap-[5px]"
             >
-              <div className="w-14 h-[1px] bg-white group-hover:opacity-70 transition-opacity"></div>
-              <div className="w-14 h-[1px] bg-white group-hover:opacity-70 transition-opacity"></div>
+              <span className="block h-[1.5px] w-6 bg-white" />
+              <span className="block h-[1.5px] w-6 bg-white" />
+              <span className="block h-[1.5px] w-6 bg-white" />
             </button>
 
             <a
-              href="tel:+41442694040"
-              className="flex items-center gap-2 text-white hover:opacity-80 transition-opacity"
+              href="tel:+41000000000"
+              className="hidden items-center gap-2 text-sm tracking-wide text-white sm:flex"
             >
-              <FiPhone className="text-[15px]" />
-              <span className="text-sm tracking-wide">Call Us</span>
+              <FiPhone className="h-4 w-4" />
+              Call Us
             </a>
           </div>
 
-          {/* Logo */}
-          <Link href="/" aria-label="Cosa home">
-  <h1
-    className="
-      font-heading
-      text-[52px]
-      tracking-[0.15em]
-      font-light
-      text-white
-    "
-  >
-    COSA
-  </h1>
-</Link>
+          {/* Center: logo */}
+          <Link
+            href="/"
+            className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 font-serif text-3xl tracking-[0.25em] text-white"
+          >
+            COSA
+          </Link>
 
-          {/* Icons */}
-          <div className="flex items-center gap-5 text-white text-[18px]">
-            {/* Language */}
-            <div className="relative" ref={langRef}>
+          {/* Right: language, currency, search, favorites */}
+          <div className="flex items-center gap-5">
+            <div className="relative">
               <button
                 onClick={() => {
                   setLangOpen((v) => !v);
                   setCurrencyOpen(false);
                 }}
-                aria-label="Change language"
-                className="hover:opacity-80 transition-opacity cursor-pointer flex items-center gap-1"
+                aria-label="Language"
+                className="text-white"
               >
-                <TbWorld />
+                <TbWorld className="h-5 w-5" />
               </button>
               {langOpen && (
-                <div className="absolute right-0 mt-3 w-40 bg-[#f8f7f4] text-neutral-800 shadow-lg py-2 text-[13px]">
+                <div className="absolute right-0 mt-3 w-44 rounded-xl border border-slate-200 bg-white p-2 shadow-lg">
                   {LANGUAGES.map((l) => (
                     <button
                       key={l.code}
-                      onClick={() => {
-                        setLanguage(l);
-                        setLangOpen(false);
-                      }}
-                      className={`w-full text-left px-4 py-2 hover:bg-neutral-200/60 transition-colors flex justify-between ${
-                        language.code === l.code ? "font-medium" : ""
-                      }`}
+                      className="block w-full rounded-md px-3 py-1.5 text-left text-sm text-slate-600 hover:bg-slate-50"
                     >
-                      <span>{l.label}</span>
-                      <span className="text-neutral-400">{l.code}</span>
+                      {l.label}
                     </button>
                   ))}
                 </div>
               )}
             </div>
 
-            {/* Currency */}
-            <div className="relative" ref={currencyRef}>
+            <div className="relative">
               <button
                 onClick={() => {
                   setCurrencyOpen((v) => !v);
                   setLangOpen(false);
                 }}
-                aria-label="Change currency"
-                className="hover:opacity-80 transition-opacity cursor-pointer"
+                aria-label="Currency"
+                className="text-white"
               >
-                <TbWorld />
+                <TbWorld className="h-5 w-5" />
               </button>
               {currencyOpen && (
-                <div className="absolute right-0 mt-3 w-44 bg-[#f8f7f4] text-neutral-800 shadow-lg py-2 text-[13px]">
+                <div className="absolute right-0 mt-3 w-44 rounded-xl border border-slate-200 bg-white p-2 shadow-lg">
                   {CURRENCIES.map((c) => (
                     <button
                       key={c.code}
-                      onClick={() => {
-                        setCurrency(c);
-                        setCurrencyOpen(false);
-                      }}
-                      className={`w-full text-left px-4 py-2 hover:bg-neutral-200/60 transition-colors flex justify-between ${
-                        currency.code === c.code ? "font-medium" : ""
-                      }`}
+                      className="block w-full rounded-md px-3 py-1.5 text-left text-sm text-slate-600 hover:bg-slate-50"
                     >
-                      <span>{c.label}</span>
-                      <span className="text-neutral-400">{c.code}</span>
+                      {c.label}
                     </button>
                   ))}
                 </div>
               )}
             </div>
 
-            <button
-              onClick={() => setSearchOpen(true)}
-              aria-label="Search"
-              className="hover:opacity-80 transition-opacity cursor-pointer"
-            >
-              <FiSearch />
+            <button aria-label="Search" className="text-white">
+              <FiSearch className="h-5 w-5" />
             </button>
-
-            <button
-              onClick={() => setSaved((v) => !v)}
-              aria-label={saved ? "Remove from wishlist" : "Save to wishlist"}
-              className="relative hover:opacity-80 transition-opacity cursor-pointer"
-            >
-              <FiHeart className={saved ? "fill-white" : ""} />
-              {saved && (
-                <span className="absolute -top-2 -right-2 bg-[#c96442] text-white text-[9px] leading-none rounded-full w-3.5 h-3.5 flex items-center justify-center">
-                  1
-                </span>
-              )}
+            <button aria-label="Saved trips" className="text-white">
+              <FiHeart className="h-5 w-5" />
             </button>
           </div>
         </div>
-      </nav>
+      </header>
 
-      {/* Mobile / full nav drawer */}
+      {/* ---------- Full-screen menu overlay (opened by the hamburger) ---------- */}
       {menuOpen && (
-        <div className="fixed inset-0 z-[110] bg-[#161512]/97 text-white flex flex-col">
-          <div className="max-w-[1180px] w-full mx-auto px-8 py-8 flex justify-between items-center">
-            <span className="font-heading text-[28px] tracking-[0.15em]">
-              COSA
-            </span>
+        <div className="fixed inset-0 z-[100] flex flex-col overflow-y-auto bg-[#FAF8F3]">
+          {/* overlay top bar */}
+          <div className="flex items-center justify-between px-8 py-7">
+            <Link
+              href="/"
+              onClick={() => setMenuOpen(false)}
+              className="font-serif text-2xl tracking-[0.25em] text-slate-800"
+            >
+            
+            </Link>
             <button
               onClick={() => setMenuOpen(false)}
               aria-label="Close menu"
-              className="text-[22px] hover:opacity-70 transition-opacity"
+              className="text-slate-600"
             >
-              <FiX />
+              <FiX className="h-7 w-7" />
             </button>
           </div>
-          <div className="flex-1 flex flex-col items-center justify-center gap-7">
-            {NAV_LINKS.map((l) => (
-              <button
-                key={l.href}
-                onClick={() => go(l.href)}
-                className="font-heading italic font-light text-[32px] hover:opacity-70 transition-opacity"
-              >
-                {l.label}
-              </button>
-            ))}
-            <a
-              href="tel:+41442694040"
-              className="mt-4 text-sm tracking-wide text-neutral-300 hover:text-white transition-colors"
-            >
-              +41 44 269 40 40
-            </a>
-          </div>
-        </div>
-      )}
 
-      {/* Search overlay */}
-      {searchOpen && (
-        <div className="fixed inset-0 z-[110] bg-[#f8f7f4] flex flex-col">
-          <div className="max-w-[900px] w-full mx-auto px-8 pt-16 pb-8 flex-1">
-            <div className="flex justify-between items-center mb-10">
-              <span className="font-heading italic font-light text-[28px] text-neutral-900">
-                Search Cosa
-              </span>
-              <button
-                onClick={() => setSearchOpen(false)}
-                aria-label="Close search"
-                className="text-[20px] text-neutral-500 hover:text-neutral-900 transition-colors"
-              >
-                <FiX />
-              </button>
-            </div>
-
-            <div className="relative border-b border-neutral-400 pb-3">
-              <FiSearch className="absolute left-0 top-1 text-neutral-500" />
-              <input
-                ref={searchInputRef}
-                value={query}
-                onChange={(e) => setQuery(e.target.value)}
-                onKeyDown={(e) => {
-                  if (e.key === "Enter" && filteredSuggestions[0]) {
-                    go(filteredSuggestions[0].href);
-                  }
-                }}
-                placeholder="Try “Switzerland”, “Events”, “Destinations”…"
-                className="w-full pl-7 bg-transparent text-[18px] text-neutral-900 placeholder:text-neutral-400 focus:outline-none"
-              />
-            </div>
-
-            <div className="mt-8">
-              <p className="text-[12px] uppercase tracking-wide text-neutral-400 mb-4">
-                {query ? "Results" : "Popular"}
-              </p>
-              <ul className="space-y-3">
-                {(query ? filteredSuggestions : SEARCH_SUGGESTIONS).map(
-                  (s) => (
-                    <li key={s.label}>
-                      <button
-                        onClick={() => go(s.href)}
-                        className="text-[16px] text-neutral-700 hover:text-neutral-900 transition-colors"
+          {/* body: left = stacked sections, right = preview image */}
+          <div className="mx-auto grid w-full max-w-[1800px] flex-1 grid-cols-1 gap-10 px-8 pb-16 pt-4 lg:grid-cols-[1.4fr_1fr]">
+            <div className="flex flex-col justify-center gap-8">
+              {MENU_SECTIONS.map((section) => (
+                <div
+                  key={section.key}
+                  onMouseEnter={() => setPreviewKey(section.key)}
+                  onFocus={() => setPreviewKey(section.key)}
+                >
+                  <h2 className="font-serif text-2xl font-light leading-none text-slate-500 transition-colors sm:text-6xl">
+                    {section.label}
+                  </h2>
+                  <div className="mt-3 flex flex-wrap items-center gap-x-6 gap-y-2">
+                    {section.links.map((link) => (
+                      <Link
+                        key={link.href}
+                        href={link.href}
+                        onClick={() => setMenuOpen(false)}
+                        className="text-lg text-slate-600 transition-colors hover:text-slate-900"
                       >
-                        {s.label}
-                      </button>
-                    </li>
-                  )
-                )}
-                {query && filteredSuggestions.length === 0 && (
-                  <li className="text-[14px] text-neutral-500">
-                    No results — try the general contact form instead.
-                  </li>
-                )}
-              </ul>
+                        {link.label}
+                      </Link>
+                    ))}
+                  </div>
+                </div>
+              ))}
+            </div>
+
+            {/* preview image, swaps with hovered/focused section */}
+            <div className="relative hidden h-full min-h-[420px] w-full overflow-hidden lg:block">
+              <Image
+                key={preview.key}
+                src={preview.image.src}
+                alt={preview.image.alt}
+                fill
+                sizes="35vw"
+                className="object-cover"
+                priority
+              />
             </div>
           </div>
         </div>
