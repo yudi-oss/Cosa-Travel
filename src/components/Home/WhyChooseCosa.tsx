@@ -41,12 +41,12 @@ export default function WhyChooseCosa() {
             unforgettable. No matter what you&apos;re looking for, we have the
             travel experience to make your dreams come true.
           </p>
-          <a
-            href="/why-choose-cosa"
-            className="inline-flex items-center border border-neutral-300 rounded-full px-6 py-2 text-[13px] text-neutral-800 hover:bg-neutral-900 hover:text-white hover:border-neutral-900 transition-colors cursor-pointer"
-          >
-            Tell Me More
-          </a>
+         <a
+  href="/why-choose-cosa"
+  className="inline-flex items-center border border-neutral-300 rounded-[20px] px-8 py-4 text-[15px] tracking-[0.08em] text-neutral-700 transition-all duration-300 hover:border-[#C97756] hover:text-[#C97756]"
+>
+  Tell Me More
+</a>
         </div>
       </div>
     </section>

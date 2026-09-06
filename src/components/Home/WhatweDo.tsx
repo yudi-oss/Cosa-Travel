@@ -106,11 +106,11 @@ export default function WhatWeDo() {
             </p>
 
             <Link
-              href={service.href}
-              className="inline-flex items-center border border-neutral-400 rounded-full px-6 py-2.5 text-sm text-neutral-900 hover:bg-neutral-900 hover:text-white hover:border-neutral-900 transition-colors"
-            >
-              Learn More
-            </Link>
+  href={service.href}
+  className="inline-flex items-center border border-neutral-400 rounded-[20px] px-8 py-4 text-[15px] tracking-[0.08em] text-neutral-700 hover:border-[#c96f4d] hover:text-[#c96f4d] transition-all duration-300"
+>
+  Learn More
+</Link>
           </div>
         </div>
       </div>

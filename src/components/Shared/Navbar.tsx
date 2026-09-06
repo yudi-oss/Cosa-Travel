@@ -1,18 +1,25 @@
 "use client";
-import { useEffect, useRef, useState } from "react";
-import { useRouter, usePathname } from "next/navigation";
+
+import { useEffect, useState } from "react";
+import { usePathname } from "next/navigation";
 import { FiSearch, FiHeart, FiPhone, FiX } from "react-icons/fi";
 import { TbWorld } from "react-icons/tb";
 import Link from "next/link";
 import Image from "next/image";
 
-// ---------- Menu content model ----------
-type MenuLink = { label: string; href: string };
+type MenuLink = {
+  label: string;
+  href: string;
+};
+
 type MenuSection = {
   key: string;
   label: string;
   links: MenuLink[];
-  image: { src: string; alt: string };
+  image: {
+    src: string;
+    alt: string;
+  };
 };
 
 const MENU_SECTIONS: MenuSection[] = [
@@ -22,7 +29,7 @@ const MENU_SECTIONS: MenuSection[] = [
     links: [
       { label: "The World", href: "/explore-the-world" },
       { label: "Switzerland", href: "/switzerland" },
-      { label: "Cosa inspirations", href: "/#inspirations" },
+      { label: "Cosa inspirations", href: "/cosa-inspirations" },
     ],
     image: {
       src: "/images/mega-menu/explore-baobabs.jpg",
@@ -99,166 +106,199 @@ const CURRENCIES = [
 ];
 
 export default function Navbar() {
-  const router = useRouter();
   const pathname = usePathname();
 
   const [menuOpen, setMenuOpen] = useState(false);
   const [langOpen, setLangOpen] = useState(false);
   const [currencyOpen, setCurrencyOpen] = useState(false);
 
-  // which section's image is shown in the full-screen menu (defaults to first)
   const [previewKey, setPreviewKey] = useState(MENU_SECTIONS[0].key);
-  const preview = MENU_SECTIONS.find((s) => s.key === previewKey) ?? MENU_SECTIONS[0];
 
-  // close everything on route change
+  const preview =
+    MENU_SECTIONS.find((section) => section.key === previewKey) ??
+    MENU_SECTIONS[0];
+
+  // Close dropdowns and menu when route changes
   useEffect(() => {
     setMenuOpen(false);
     setLangOpen(false);
     setCurrencyOpen(false);
   }, [pathname]);
 
-  // close on Escape
+  // Close menu with Escape key
   useEffect(() => {
-    const onKey = (e: KeyboardEvent) => {
-      if (e.key === "Escape") setMenuOpen(false);
+    const onKey = (event: KeyboardEvent) => {
+      if (event.key === "Escape") {
+        setMenuOpen(false);
+      }
     };
+
     window.addEventListener("keydown", onKey);
-    return () => window.removeEventListener("keydown", onKey);
+
+    return () => {
+      window.removeEventListener("keydown", onKey);
+    };
   }, []);
 
-  // lock body scroll while the full-screen menu is open
+  // Prevent scrolling when menu is open
   useEffect(() => {
     document.body.style.overflow = menuOpen ? "hidden" : "";
+
     return () => {
       document.body.style.overflow = "";
     };
   }, [menuOpen]);
 
-  // reset preview image to first section each time menu opens
+  // Reset menu preview when menu opens
   useEffect(() => {
-    if (menuOpen) setPreviewKey(MENU_SECTIONS[0].key);
+    if (menuOpen) {
+      setPreviewKey(MENU_SECTIONS[0].key);
+    }
   }, [menuOpen]);
 
   return (
     <>
-      {/* ---------- Header (sits on top of the hero image, transparent) ---------- */}
+      {/* ================= HEADER ================= */}
       <header className="absolute left-0 right-0 top-0 z-50">
         <div className="mx-auto flex max-w-[1800px] items-center justify-between px-8 py-7">
-          {/* Left: hamburger + call us */}
+
+          {/* LEFT SIDE */}
           <div className="flex items-center gap-8">
+
+            {/* HAMBURGER */}
             <button
               onClick={() => setMenuOpen(true)}
               aria-label="Open menu"
               aria-expanded={menuOpen}
-              className="flex flex-col gap-[5px]"
+              className="group flex flex-col gap-[5px] transition-all duration-300"
             >
-              <span className="block h-[1.5px] w-6 bg-white" />
-              <span className="block h-[1.5px] w-6 bg-white" />
-              <span className="block h-[1.5px] w-6 bg-white" />
+              <span className="block h-[1.5px] w-6 bg-white transition-colors duration-300 group-hover:bg-[#182D27]" />
+              <span className="block h-[1.5px] w-6 bg-white transition-colors duration-300 group-hover:bg-[#182D27]" />
+              <span className="block h-[1.5px] w-6 bg-white transition-colors duration-300 group-hover:bg-[#182D27]" />
             </button>
 
+            {/* CALL US */}
             <a
               href="tel:+41000000000"
-              className="hidden items-center gap-2 text-sm tracking-wide text-white sm:flex"
+              className="hidden items-center gap-2 text-sm tracking-wide text-white transition-colors duration-300 hover:text-[#182D27] sm:flex"
             >
               <FiPhone className="h-4 w-4" />
               Call Us
             </a>
           </div>
 
-          {/* Center: logo */}
+          {/* ================= COSA LOGO ================= */}
           <Link
             href="/"
-            className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 font-serif text-3xl tracking-[0.25em] text-white"
+            className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 font-serif text-3xl tracking-[0.25em] text-white transition-colors duration-300 hover:text-[#182D27]"
           >
             COSA
           </Link>
 
-          {/* Right: language, currency, search, favorites */}
+          {/* ================= RIGHT SIDE ================= */}
           <div className="flex items-center gap-5">
+
+            {/* LANGUAGE */}
             <div className="relative">
               <button
                 onClick={() => {
-                  setLangOpen((v) => !v);
+                  setLangOpen((value) => !value);
                   setCurrencyOpen(false);
                 }}
                 aria-label="Language"
-                className="text-white"
+                className="text-white transition-colors duration-300 hover:text-[#182D27]"
               >
                 <TbWorld className="h-5 w-5" />
               </button>
+
               {langOpen && (
                 <div className="absolute right-0 mt-3 w-44 rounded-xl border border-slate-200 bg-white p-2 shadow-lg">
-                  {LANGUAGES.map((l) => (
+                  {LANGUAGES.map((language) => (
                     <button
-                      key={l.code}
-                      className="block w-full rounded-md px-3 py-1.5 text-left text-sm text-slate-600 hover:bg-slate-50"
+                      key={language.code}
+                      className="block w-full rounded-md px-3 py-1.5 text-left text-sm text-slate-600 transition-colors hover:bg-slate-50"
                     >
-                      {l.label}
+                      {language.label}
                     </button>
                   ))}
                 </div>
               )}
             </div>
 
+            {/* CURRENCY */}
             <div className="relative">
               <button
                 onClick={() => {
-                  setCurrencyOpen((v) => !v);
+                  setCurrencyOpen((value) => !value);
                   setLangOpen(false);
                 }}
                 aria-label="Currency"
-                className="text-white"
+                className="text-white transition-colors duration-300 hover:text-[#182D27]"
               >
                 <TbWorld className="h-5 w-5" />
               </button>
+
               {currencyOpen && (
                 <div className="absolute right-0 mt-3 w-44 rounded-xl border border-slate-200 bg-white p-2 shadow-lg">
-                  {CURRENCIES.map((c) => (
+                  {CURRENCIES.map((currency) => (
                     <button
-                      key={c.code}
-                      className="block w-full rounded-md px-3 py-1.5 text-left text-sm text-slate-600 hover:bg-slate-50"
+                      key={currency.code}
+                      className="block w-full rounded-md px-3 py-1.5 text-left text-sm text-slate-600 transition-colors hover:bg-slate-50"
                     >
-                      {c.label}
+                      {currency.label}
                     </button>
                   ))}
                 </div>
               )}
             </div>
 
-            <button aria-label="Search" className="text-white">
+            {/* SEARCH */}
+            <button
+              aria-label="Search"
+              className="text-white transition-colors duration-300 hover:text-[#182D27]"
+            >
               <FiSearch className="h-5 w-5" />
             </button>
-            <button aria-label="Saved trips" className="text-white">
+
+            {/* HEART */}
+            <button
+              aria-label="Saved trips"
+              className="text-white transition-colors duration-300 hover:text-[#182D27]"
+            >
               <FiHeart className="h-5 w-5" />
             </button>
           </div>
         </div>
       </header>
 
-      {/* ---------- Full-screen menu overlay (opened by the hamburger) ---------- */}
+      {/* ================= FULL SCREEN MENU ================= */}
       {menuOpen && (
         <div className="fixed inset-0 z-[100] flex flex-col overflow-y-auto bg-[#FAF8F3]">
-          {/* overlay top bar */}
+
+          {/* MENU TOP BAR */}
           <div className="flex items-center justify-between px-8 py-7">
+
             <Link
               href="/"
               onClick={() => setMenuOpen(false)}
-              className="font-serif text-2xl tracking-[0.25em] text-slate-800"
+              className="font-serif text-2xl tracking-[0.25em] text-[#182D27]"
             >
-            
+              COSA
             </Link>
+
             <button
               onClick={() => setMenuOpen(false)}
               aria-label="Close menu"
-              className="text-slate-600"
+              className="text-slate-600 transition-colors duration-300 hover:text-[#182D27]"
             >
               <FiX className="h-7 w-7" />
             </button>
           </div>
 
-          {/* body: left = stacked sections, right = preview image */}
+          {/* MENU BODY */}
           <div className="mx-auto grid w-full max-w-[1800px] flex-1 grid-cols-1 gap-10 px-8 pb-16 pt-4 lg:grid-cols-[1.4fr_1fr]">
+
+            {/* LEFT MENU */}
             <div className="flex flex-col justify-center gap-8">
               {MENU_SECTIONS.map((section) => (
                 <div
@@ -269,13 +309,14 @@ export default function Navbar() {
                   <h2 className="font-serif text-2xl font-light leading-none text-slate-500 transition-colors sm:text-6xl">
                     {section.label}
                   </h2>
+
                   <div className="mt-3 flex flex-wrap items-center gap-x-6 gap-y-2">
                     {section.links.map((link) => (
                       <Link
                         key={link.href}
                         href={link.href}
                         onClick={() => setMenuOpen(false)}
-                        className="text-lg text-slate-600 transition-colors hover:text-slate-900"
+                        className="text-lg text-slate-600 transition-colors duration-300 hover:text-[#182D27]"
                       >
                         {link.label}
                       </Link>
@@ -285,7 +326,7 @@ export default function Navbar() {
               ))}
             </div>
 
-            {/* preview image, swaps with hovered/focused section */}
+            {/* RIGHT PREVIEW IMAGE */}
             <div className="relative hidden h-full min-h-[420px] w-full overflow-hidden lg:block">
               <Image
                 key={preview.key}
