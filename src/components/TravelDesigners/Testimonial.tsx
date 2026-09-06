@@ -26,77 +26,142 @@ export default function Testimonial() {
   const current = QUOTES[active];
 
   return (
-    <section className="relative bg-[#f8f7f4] py-24 overflow-hidden">
+    <section className="relative h-[535px] overflow-hidden bg-[#f8f7f4]">
 
-      {/* Decorative circles */}
-      <div className="absolute right-0 top-1/2 -translate-y-1/2 w-[560px] h-[420px] pointer-events-none">
+      {/* ==============================
+          DECORATIVE CIRCLES
+      =============================== */}
+      <div className="pointer-events-none absolute inset-0">
+
+        {/* Circle 1 — top */}
         <div
-          className="absolute right-40 top-0 w-64 h-64 rounded-full"
+          className="
+            absolute
+            right-[215px]
+            top-[62px]
+            h-[330px]
+            w-[330px]
+            rounded-full
+          "
           style={{
             background:
-              "linear-gradient(180deg, rgba(150,166,156,0.55) 0%, rgba(150,166,156,0.25) 55%, rgba(150,166,156,0) 100%)",
+              "radial-gradient(circle at 50% 38%, rgba(155,170,160,0.42) 0%, rgba(155,170,160,0.30) 55%, rgba(155,170,160,0.20) 100%)",
           }}
         />
 
+        {/* Circle 2 — right */}
         <div
-          className="absolute right-0 top-24 w-72 h-72 rounded-full"
+          className="
+            absolute
+            right-[-5px]
+            top-[205px]
+            h-[335px]
+            w-[335px]
+            rounded-full
+          "
           style={{
             background:
-              "linear-gradient(180deg, rgba(150,166,156,0.5) 0%, rgba(150,166,156,0.22) 55%, rgba(150,166,156,0) 100%)",
+              "radial-gradient(circle at 50% 35%, rgba(155,170,160,0.40) 0%, rgba(155,170,160,0.28) 55%, rgba(155,170,160,0.18) 100%)",
           }}
         />
 
+        {/* Circle 3 — bottom left */}
         <div
-          className="absolute right-52 top-40 w-56 h-56 rounded-full"
+          className="
+            absolute
+            right-[475px]
+            top-[205px]
+            h-[290px]
+            w-[290px]
+            rounded-full
+          "
           style={{
             background:
-              "linear-gradient(180deg, rgba(150,166,156,0.5) 0%, rgba(150,166,156,0.22) 55%, rgba(150,166,156,0) 100%)",
+              "radial-gradient(circle at 50% 35%, rgba(155,170,160,0.38) 0%, rgba(155,170,160,0.26) 55%, rgba(155,170,160,0.16) 100%)",
           }}
         />
       </div>
 
-      {/* Content */}
-      <div className="relative z-10 max-w-[720px] mx-auto px-8">
+      {/* ==============================
+          CONTENT
+      =============================== */}
+      <div className="relative mx-auto h-full max-w-[1416px]">
 
-        {/* Quote */}
-        <p className="font-heading italic font-light text-[28px] md:text-[32px] text-neutral-900 leading-snug">
-          &ldquo;{current.text}&rdquo;
-        </p>
+        <div
+          className="
+            absolute
+            left-[20.8%]
+            top-[225px]
+            w-[700px]
+          "
+        >
 
-        {/* Author */}
-        <div className="flex items-center gap-3 mt-5">
-          <span className="w-8 h-px bg-neutral-400" />
-
-          <p className="text-[12px] text-neutral-500">
-            {current.author} · {current.location} · ★★★★★
+          {/* Quote */}
+          <p
+            className="
+              font-heading
+              text-[46px]
+              font-light
+              italic
+              leading-[1.18]
+              tracking-[-0.025em]
+              text-[#171717]
+            "
+          >
+            &ldquo;{current.text}&rdquo;
           </p>
-        </div>
 
-        {/* Indicators */}
-        <div className="relative z-[9999] flex items-center gap-3 mt-10">
-          {QUOTES.map((quote, index) => (
-            <button
-              key={quote.author}
-              type="button"
-              onMouseDown={(e) => {
-                e.preventDefault();
-                e.stopPropagation();
-                setActive(index);
-              }}
-              aria-label={`Show testimonial ${index + 1}`}
-              className="relative z-[9999] flex items-center justify-center w-10 h-10 cursor-pointer"
-            >
-              <span
-                className={`rounded-full transition-all duration-300 ${
-                  active === index
-                    ? "w-7 h-2 bg-neutral-800"
-                    : "w-2 h-2 bg-neutral-300"
-                }`}
-              />
-            </button>
-          ))}
-        </div>
+          {/* ==============================
+              AUTHOR
+          =============================== */}
+          <div className="mt-5 flex items-center gap-4">
 
+            <span className="h-px w-[43px] bg-[#999]" />
+
+            <p className="text-[13px] leading-none text-[#777]">
+              {current.author} · {current.location} · ★★★★★
+            </p>
+
+          </div>
+
+          {/* ==============================
+              SLIDER
+          =============================== */}
+          <div className="mt-14 flex items-center gap-[5px]">
+
+            {QUOTES.map((quote, index) => (
+              <button
+                key={quote.author}
+                type="button"
+                onClick={() => setActive(index)}
+                aria-label={`Show testimonial ${index + 1}`}
+                className="
+                  flex
+                  h-[12px]
+                  items-center
+                  justify-center
+                  cursor-pointer
+                "
+              >
+                <span
+                  className={`
+                    block
+                    rounded-full
+                    transition-all
+                    duration-300
+                    ${
+                      active === index
+                        ? "h-[6px] w-[30px] bg-[#1f4b3e]"
+                        : "h-[6px] w-[7px] bg-[#8c918d]"
+                    }
+                  `}
+                />
+              </button>
+            ))}
+
+          </div>
+
+        </div>
       </div>
     </section>
   );

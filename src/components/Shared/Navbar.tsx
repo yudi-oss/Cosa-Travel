@@ -20,7 +20,7 @@ const MENU_SECTIONS: MenuSection[] = [
     key: "explore",
     label: "Explore",
     links: [
-      { label: "The World", href: "/#destinations" },
+      { label: "The World", href: "/explore-the-world" },
       { label: "Switzerland", href: "/switzerland" },
       { label: "Cosa inspirations", href: "/#inspirations" },
     ],
